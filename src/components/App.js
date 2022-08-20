@@ -85,7 +85,6 @@ function App() {
   const handleCardClick = (card) => {
     setSelectedCard(card);
     setIsImagePopupOpen(true);
-    console.log(isImagePopupOpen);
   };
 
   const handleCloseAllPopups = () => {
@@ -129,7 +128,6 @@ function App() {
   };
 
   const handleAddPlaceSubmit = (cardData) => {
-    console.log(cardData);
     api
       .createCard(cardData)
       .then((cardData) => {
