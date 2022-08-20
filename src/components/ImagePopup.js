@@ -18,7 +18,7 @@ function ImagePopup(props) {
   });
 
   return (
-    <div className={`popup popup_type_image ${props.isOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
+    <div className={`popup popup_type_image ${props.isImagePopupOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
       <div className="popup__container" onMouseDown={(event) => event.stopPropagation()}>
         <button aria-label="close" type="button" className="button popup__close" onClick={props.onClose}>
           <img className="popup__close-icon" src={xIcon} alt="close" />

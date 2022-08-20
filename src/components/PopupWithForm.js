@@ -17,16 +17,27 @@ function PopupWithForm(props) {
     };
   });
 
-  const nameInput = () => {
+  const nameInput = (userName, changeEvent) => {
     return (
       <>
-        <input id='name' className='form__input' type='text' name='name' placeholder='Name' minLength='2' maxLength='200' required />
+        <input
+          id='name'
+          className='form__input'
+          type='text'
+          name='name'
+          placeholder='Name'
+          minLength='2'
+          maxLength='200'
+          required
+        
+          onChange={(e) => changeEvent(e)}
+        />
         <span className='form__input-error about-me-error'></span>
       </>
     );
   };
 
-  const aboutInput = () => {
+  const aboutInput = (userDescription, changeEvent) => {
     return (
       <>
         <input
@@ -38,17 +49,10 @@ function PopupWithForm(props) {
           minLength='2'
           maxLength='200'
           required
+        
+          onChange={(e) => changeEvent(e)}
         />
         <span className='form__input-error about-me-error'></span>
-      </>
-    );
-  };
-
-  const linkInput = () => {
-    return (
-      <>
-        <input id='image-url' className='form__input' type='url' name='url' placeholder='Image link' required />
-        <span className='form__input-error profile-pic-url-error'></span>
       </>
     );
   };
@@ -59,11 +63,12 @@ function PopupWithForm(props) {
         <button aria-label='close' type='button' className='button popup__close' onClick={props.onClose}>
           <img className='popup__close-icon' src={xIcon} alt='close' />
         </button>
-        <form name={`form_type_${props.name}`} className='form' noValidate>
+        <form name={`form_type_${props.name}`} className='form' onSubmit={props.onSubmit} noValidate>
           <h2 className='form__title'>{props.title}</h2>
-          {['add-place', 'edit-profile'].includes(props.name) ? nameInput() : ''}
-          {props.name === 'edit-profile' ? aboutInput() : ''}
-          {['add-place', 'edit-avatar'].includes(props.name) ? linkInput() : ''}
+          {props.name === 'edit-profile' ? nameInput(props.userName, props.onNameChange) : null}
+          {props.name === 'edit-profile' ? aboutInput(props.userDescription, props.onDescriptionChange) : null}
+          {props.addPlaceInputs}
+          {props.avatarLinkInput}
           <button className='button form__submit' name='submit'>
             {props.button}
           </button>

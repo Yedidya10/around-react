@@ -1,64 +1,51 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 
 import Card from './Card';
-import api from '../utils/api';
+
+import userContext from '../contexts/CurrentUserContext';
+
 import editIcon from '../images/edit-icon.svg';
 import xIcon from '../images/x-icon.svg';
 
-function Main( props ) {
-  const [ userName, setUserName ] = useState('');
-  const [ userDescription, setUserDescription ] = useState('');
-  const [ userAvatar, setUserAvatar ] = useState('');
-  const [ cards , setCards ] = useState([]);
-
-
-  useEffect(() => {
-    api.getUser()
-      .then(data => {
-        setUserName(data.name);
-        setUserDescription(data.about);
-        setUserAvatar(data.avatar);
-      }).catch(err => {
-        console.log(err);
-      }
-    );
-  } , []);
-
-  useEffect(() => {
-    api.getCards()
-      .then(data => {
-        setCards(data);
-      }).catch(err => {
-        console.log(err);
-      }
-    );
-  } , []);
+function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDelete }) {
+  const { currentUser } = useContext(userContext);
 
   return (
     <main className='content'>
       <section className='profile'>
         <div className='profile__img-wrapper'>
-          <img className='profile__image' src={userAvatar} alt='profile avatar' />
-          <div className='profile__img-overlay' onClick={props.onEditAvatar}>
+          <img className='profile__image' src={currentUser.avatar} alt='profile avatar' />
+          <div className='profile__img-overlay' onClick={onEditAvatar}>
             <img className='profile__edit-img' src={editIcon} alt='edit-icon' />
           </div>
         </div>
         <div className='profile__info'>
-          <h1 className='profile__name'>{userName}</h1>
-          <p className='profile__about-me'>{userDescription}</p>
-          <button aria-label='Edit Profile' type='button' className='button popup-button profile__edit' onClick={props.onEditProfile}>
+          <h1 className='profile__name'>{currentUser.name}</h1>
+          <p className='profile__about-me'>{currentUser.description}</p>
+          <button aria-label='Edit Profile' type='button' className='button popup-button profile__edit' onClick={onEditProfile}>
             <img className='profile__edit-icon' src={editIcon} alt='edit icon' />
           </button>
         </div>
-        <button aria-label='Add Card' type='button' className='button popup-button profile__add-card' onClick={props.onAddPlace}>
+        <button aria-label='Add Card' type='button' className='button popup-button profile__add-card' onClick={onAddPlace}>
           <img src={xIcon} alt='add' />
         </button>
       </section>
       <section>
         <ul className='cards'>
-          {cards.map(card => {
-            return <Card key={card._id} card={card} likesCount={card.likes.length} text={card.name} link={card.link} onCardClick={props.onCardClick} />
-          } )}
+          {cards.map((card) => {
+            return (
+              <Card
+                key={card._id}
+                card={card}
+                text={card.name}
+                likesCount={card.likes.length}
+                link={card.link}
+                onCardClick={onCardClick}
+                onCardLike={onCardLike}
+                onCardDelete={onCardDelete}
+              />
+            );
+          })}
         </ul>
       </section>
     </main>
