@@ -2,13 +2,13 @@ import React, { useContext } from 'react';
 
 import Card from './Card';
 
-import userContext from '../contexts/CurrentUserContext';
+import UserContext from '../contexts/CurrentUserContext';
 
 import editIcon from '../images/edit-icon.svg';
 import xIcon from '../images/x-icon.svg';
 
 function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDelete }) {
-  const { currentUser } = useContext(userContext);
+  const { currentUser } = useContext(UserContext);
 
   return (
     <main className='content'>

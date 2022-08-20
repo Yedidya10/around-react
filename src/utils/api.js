@@ -24,7 +24,6 @@ class Api extends React.Component {
   };
 
   createCard = (cardData) => {
-    console.log(cardData);
     return fetch(`${this.props.baseUrl}/cards`, {
       method: 'POST',
       headers: this.props.headers,

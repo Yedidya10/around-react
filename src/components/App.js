@@ -8,7 +8,7 @@ import EditAvatarPopup from './EditAvatarPopup';
 import AddPlacePopup from './AddPlacePopup';
 
 import api from '../utils/api';
-import userContext from '../contexts/CurrentUserContext';
+import UserContext from '../contexts/CurrentUserContext';
 
 import '../index.css';
 import ImagePopup from './ImagePopup';
@@ -21,6 +21,8 @@ function App() {
   const [isImagePopupOpen, setIsImagePopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
+  const [addSubmitButtonText, setAddSubmitButtonText] = useState('Add');
+  const [editSubmitButtonText, setEditSubmitButtonText] = useState('Save');
 
   useEffect(() => {
     api
@@ -30,21 +32,24 @@ function App() {
           name: data.name,
           description: data.about,
           avatar: data.avatar,
+          _id: data._id,
         });
       })
       .catch((err) => {
         console.log(err);
       });
-
-    api
-      .getCards()
-      .then((data) => {
-        setCards(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
   }, []);
+
+  useEffect(() => {
+    api
+    .getCards()
+    .then((data) => {
+      setCards(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  } , []);
 
   // Handle Events
   const handleCardLike = (card) => {
@@ -99,6 +104,7 @@ function App() {
       .updateProfileText(data)
       .then((data) => {
         setCurrentUser({
+          ...currentUser,
           name: data.name,
           description: data.about,
         });
@@ -107,7 +113,9 @@ function App() {
         console.log(err);
       })
       .finally(() => {
+        setEditSubmitButtonText('Saving...');
         handleCloseAllPopups();
+        setEditSubmitButtonText('Save');
       });
   };
 
@@ -116,6 +124,7 @@ function App() {
       .updateAvatar(data)
       .then((data) => {
         setCurrentUser({
+          ...currentUser,
           avatar: data.avatar,
         });
       })
@@ -123,7 +132,9 @@ function App() {
         console.log(err);
       })
       .finally(() => {
+        setEditSubmitButtonText('Saving...');
         handleCloseAllPopups();
+        setEditSubmitButtonText('Save');
       });
   };
 
@@ -137,13 +148,15 @@ function App() {
         console.log(err);
       })
       .finally(() => {
+        setAddSubmitButtonText('Adding...');
         handleCloseAllPopups();
+        setAddSubmitButtonText('Add');
       });
   };
 
   return (
     <div className='page'>
-      <userContext.Provider value={{ currentUser }}>
+      <UserContext.Provider value={{ currentUser }}>
         <Header />
         <Main
           onEditAvatar={handleEditAvatarClick}
@@ -155,11 +168,11 @@ function App() {
           cards={cards}
         />
         <Footer />
-        <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups} onUpdateUser={handleUpdateUser} />
-        <EditAvatarPopup isEditAvatarPopupOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups} onUpdateAvatar={handleUpdateAvatar} />
-        <AddPlacePopup isAddPlacePopupOpen={isAddPlacePopupOpen} onClose={handleCloseAllPopups} onAddPlaceSubmit={handleAddPlaceSubmit} />
+        <EditProfilePopup isEditProfilePopupOpen={isEditProfilePopupOpen} onClose={handleCloseAllPopups} onUpdateUser={handleUpdateUser} editSubmitButtonText={editSubmitButtonText}/>
+        <EditAvatarPopup isEditAvatarPopupOpen={isEditAvatarPopupOpen} onClose={handleCloseAllPopups} onUpdateAvatar={handleUpdateAvatar} editSubmitButtonText={editSubmitButtonText}/>
+        <AddPlacePopup isAddPlacePopupOpen={isAddPlacePopupOpen} onClose={handleCloseAllPopups} onAddPlaceSubmit={handleAddPlaceSubmit} addSubmitButtonText={addSubmitButtonText}/>
         <ImagePopup isImagePopupOpen={isImagePopupOpen} onClose={handleCloseAllPopups} card={selectedCard} />
-      </userContext.Provider>
+      </UserContext.Provider>
     </div>
   );
 }

@@ -17,60 +17,19 @@ function PopupWithForm(props) {
     };
   });
 
-  const nameInput = (userName, changeEvent) => {
-    return (
-      <>
-        <input
-          id='name'
-          className='form__input'
-          type='text'
-          name='name'
-          placeholder='Name'
-          minLength='2'
-          maxLength='200'
-          required
-        
-          onChange={(e) => changeEvent(e)}
-        />
-        <span className='form__input-error about-me-error'></span>
-      </>
-    );
-  };
 
-  const aboutInput = (userDescription, changeEvent) => {
-    return (
-      <>
-        <input
-          id='about-me'
-          className='form__input'
-          type='text'
-          name='about-me'
-          placeholder='About me'
-          minLength='2'
-          maxLength='200'
-          required
-        
-          onChange={(e) => changeEvent(e)}
-        />
-        <span className='form__input-error about-me-error'></span>
-      </>
-    );
-  };
 
   return (
-    <div className={`popup popup_type_${props.name} ${props.isOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
+    <div className={`popup popup_type_${props.formName} ${props.isOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
       <div className='popup__container' onMouseDown={(event) => event.stopPropagation()}>
         <button aria-label='close' type='button' className='button popup__close' onClick={props.onClose}>
           <img className='popup__close-icon' src={xIcon} alt='close' />
         </button>
-        <form name={`form_type_${props.name}`} className='form' onSubmit={props.onSubmit} noValidate>
+        <form name={`form_type_${props.formTitle}`} className='form' onSubmit={props.onSubmit} noValidate>
           <h2 className='form__title'>{props.title}</h2>
-          {props.name === 'edit-profile' ? nameInput(props.userName, props.onNameChange) : null}
-          {props.name === 'edit-profile' ? aboutInput(props.userDescription, props.onDescriptionChange) : null}
-          {props.addPlaceInputs}
-          {props.avatarLinkInput}
+          {props.children}
           <button className='button form__submit' name='submit'>
-            {props.button}
+            {props.buttonText}
           </button>
         </form>
       </div>
