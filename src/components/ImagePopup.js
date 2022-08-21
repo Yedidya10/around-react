@@ -1,22 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import xIcon from '../images/x-icon.svg';
 
 function ImagePopup(props) {
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        props.onClose();
-      }
-    };
-
-    document.addEventListener('keydown', keyDownHandler);
-
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  });
-
   return (
     <div className={`popup popup_type_image ${props.isImagePopupOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
       <div className="popup__container" onMouseDown={(event) => event.stopPropagation()}>

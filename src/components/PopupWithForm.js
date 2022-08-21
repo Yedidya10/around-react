@@ -1,35 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import xIcon from '../images/x-icon.svg';
 
-function PopupWithForm(props) {
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      if (event.key === 'Escape') {
-        event.preventDefault();
-        props.onClose();
-      }
-    };
-
-    document.addEventListener('keydown', keyDownHandler);
-
-    return () => {
-      document.removeEventListener('keydown', keyDownHandler);
-    };
-  });
-
-
+function PopupWithForm({isOpen, onClose, formName, formTitle, buttonText, children, onSubmit}) {
 
   return (
-    <div className={`popup popup_type_${props.formName} ${props.isOpen ? 'popup_opened' : ''}`} onMouseDown={props.onClose}>
+    <div className={`popup popup_type_${formName} ${isOpen ? 'popup_opened' : ''}`} onMouseDown={onClose}>
       <div className='popup__container' onMouseDown={(event) => event.stopPropagation()}>
-        <button aria-label='close' type='button' className='button popup__close' onClick={props.onClose}>
+        <button aria-label='close' type='button' className='button popup__close' onClick={onClose}>
           <img className='popup__close-icon' src={xIcon} alt='close' />
         </button>
-        <form name={`form_type_${props.formTitle}`} className='form' onSubmit={props.onSubmit} noValidate>
-          <h2 className='form__title'>{props.title}</h2>
-          {props.children}
+        <form name={`form_type_${formName}`} className='form' onSubmit={onSubmit}>
+          <h2 className='form__title'>{formTitle}</h2>
+          {children}
           <button className='button form__submit' name='submit'>
-            {props.buttonText}
+            {buttonText}
           </button>
         </form>
       </div>

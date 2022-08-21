@@ -7,7 +7,7 @@ import UserContext from '../contexts/CurrentUserContext';
 import editIcon from '../images/edit-icon.svg';
 import xIcon from '../images/x-icon.svg';
 
-function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDelete }) {
+function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDeleteButtonClick, setSelectedCard }) {
   const { currentUser } = useContext(UserContext);
 
   return (
@@ -21,7 +21,7 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onC
         </div>
         <div className='profile__info'>
           <h1 className='profile__name'>{currentUser.name}</h1>
-          <p className='profile__about-me'>{currentUser.description}</p>
+          <p className='profile__about-me'>{currentUser.about}</p>
           <button aria-label='Edit Profile' type='button' className='button popup-button profile__edit' onClick={onEditProfile}>
             <img className='profile__edit-icon' src={editIcon} alt='edit icon' />
           </button>
@@ -42,7 +42,8 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onC
                 link={card.link}
                 onCardClick={onCardClick}
                 onCardLike={onCardLike}
-                onCardDelete={onCardDelete}
+                onCardDeleteButtonClick={onCardDeleteButtonClick}
+                setSelectedCard={setSelectedCard}
               />
             );
           })}
