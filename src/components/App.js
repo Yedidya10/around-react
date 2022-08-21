@@ -58,7 +58,6 @@ function App() {
   }, [isLoading]);
 
   const handleUpdateUser = (data) => {
-    console.log(data);
     setIsLoading(true);
     api
       .updateProfileText(data)
@@ -118,12 +117,12 @@ function App() {
       });
   };
 
-  const handleCardDelete = (card) => {
+  const handleCardDelete = (selectedCard) => {
     setIsLoading(true);
     api
-      .deleteCard(card._id)
+      .deleteCard(selectedCard._id)
       .then(() => {
-        setCards((state) => state.filter((currentCard) => currentCard._id !== card._id));
+        setCards((state) => state.filter((currentCard) => currentCard._id !== selectedCard._id));
         handleCloseAllPopups();
       })
       .catch((err) => {
