@@ -145,8 +145,9 @@ function App() {
     setIsAddPlacePopupOpen(true);
   };
 
-  const handleDeleteCardClick = () => {
-    setIsDeleteCardPopupOpen();
+  const handleDeleteCardClick = (card) => {
+    setSelectedCard(card);
+    setIsDeleteCardPopupOpen(true);
   };
 
   const handleCardClick = (card) => {
@@ -186,7 +187,6 @@ function App() {
           onCardLike={handleCardLike}
           onCardDeleteButtonClick={handleDeleteCardClick}
           cards={cards}
-          setSelectedCard={setSelectedCard}
         />
         <Footer />
         <EditProfilePopup

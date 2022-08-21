@@ -7,7 +7,7 @@ import UserContext from '../contexts/CurrentUserContext';
 import editIcon from '../images/edit-icon.svg';
 import xIcon from '../images/x-icon.svg';
 
-function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDeleteButtonClick, setSelectedCard }) {
+function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onCardLike, onCardDeleteButtonClick }) {
   const { currentUser } = useContext(UserContext);
 
   return (
@@ -43,7 +43,6 @@ function Main({ onEditProfile, onEditAvatar, onAddPlace, cards, onCardClick, onC
                 onCardClick={onCardClick}
                 onCardLike={onCardLike}
                 onCardDeleteButtonClick={onCardDeleteButtonClick}
-                setSelectedCard={setSelectedCard}
               />
             );
           })}
