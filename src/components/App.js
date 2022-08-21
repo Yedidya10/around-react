@@ -117,7 +117,7 @@ function App() {
       });
   };
 
-  const handleCardDelete = (selectedCard) => {
+  const handleCardDelete = () => {
     setIsLoading(true);
     api
       .deleteCard(selectedCard._id)
